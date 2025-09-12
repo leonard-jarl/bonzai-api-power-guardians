@@ -20,7 +20,7 @@ functions:
     handler: /functions/ChangeBooking/index.handler
     events:
       - httpApi:
-          path: /bookings
+          path: /bookings/{id}
           method: PUT
   CreateBooking:
     handler: /functions/CreateBooking/index.handler
@@ -32,7 +32,7 @@ functions:
     handler: /functions/DeleteBooking/index.handler
     events:
       - httpApi:
-          path: /bookings
+          path: /bookings/{id}
           method: DELETE
   GetBookings:
     handler: /functions/GetBookings/index.handler
