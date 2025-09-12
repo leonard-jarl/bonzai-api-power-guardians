@@ -1,0 +1,42 @@
+org: fed24
+service: bonzai-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  iam:
+    role: 
+
+build:
+  esbuild:
+    minify: true
+
+package:
+  individually: true
+
+functions:
+  ChangeBooking:
+    handler: /functions/ChangeBooking/index.handler
+    events:
+      - httpApi:
+          path: /bookings
+          method: PUT
+  CreateBooking:
+    handler: /functions/CreateBooking/index.handler
+    events:
+      - httpApi:
+          path: /bookings
+          method: POST
+  DeleteBooking:
+    handler: /functions/DeleteBooking/index.handler
+    events:
+      - httpApi:
+          path: /bookings
+          method: DELETE
+  GetBookings:
+    handler: /functions/GetBookings/index.handler
+    events:
+      - httpApi:
+          path: /bookings
+          method: GET
