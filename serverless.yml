@@ -1,4 +1,4 @@
-org: fed24
+org: ${env:ORG}
 service: bonzai-api
 
 provider:
@@ -6,7 +6,7 @@ provider:
   runtime: nodejs20.x
   region: eu-north-1
   iam:
-    role: 
+    role: ${env:ROLE}
 
 build:
   esbuild:
@@ -17,26 +17,27 @@ package:
 
 functions:
   ChangeBooking:
-    handler: /functions/ChangeBooking/index.handler
+    handler: functions/ChangeBooking/index.handler
     events:
       - httpApi:
           path: /bookings/{id}
           method: PUT
   CreateBooking:
-    handler: /functions/CreateBooking/index.handler
+    handler: functions/CreateBooking/index.handler
     events:
       - httpApi:
           path: /bookings
           method: POST
   DeleteBooking:
-    handler: /functions/DeleteBooking/index.handler
+    handler: functions/DeleteBooking/index.handler
     events:
       - httpApi:
           path: /bookings/{id}
           method: DELETE
   GetBookings:
-    handler: /functions/GetBookings/index.handler
+    handler: functions/GetBookings/index.handler
     events:
       - httpApi:
           path: /bookings
           method: GET
+
