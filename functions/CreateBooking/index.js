@@ -2,7 +2,7 @@ import { DynamoDBClient, PutItemCommand, QueryCommand } from "@aws-sdk/client-dy
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import { v4 as uuidv4 } from 'uuid';
 
-const client = new DynamoDBClient({ region: process.env.AWS_REGION || "eu-north-1" });
+const client = new DynamoDBClient({ region: "eu-north-1" });
 
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -39,7 +39,7 @@ export const handler = async (event) => {
 
     const singleRooms = Number(body.singleRooms);
     const doubleRooms = Number(body.doubleRooms);
-    const suites      = Number(body.suites);
+    const suites = Number(body.suites);
     const name  = (body.name ?? "").trim();
     const email = (body.email ?? "").trim();
     const numbersOfGuests = Number(body.numbersOfGuests);
