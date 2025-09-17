@@ -10,6 +10,28 @@ export const handler = async (event) => {
         const {id} = event.pathParameters;
         const bookingId = `BOOKING#${id}`
 
+        const requiredFields = [
+            "singleRooms",
+            "doubleRooms",
+            "suites",
+            "numberOfGuests",
+            "name",
+            "email",
+            "checkIn",
+            "checkOut"
+        ]
+
+        const missingFields = requiredFields.filter(field => !body.hasOwnProperty(field) || body[field] === "" || body[field] === null);
+
+        if (missingFields.length > 0 ){
+            return{
+                statusCode: 400,
+                body: JSON.stringify({
+                    message: `Följande fält saknas eller är tomma: ${missingFields.join(", ")}`
+                })
+            }
+        }
+
         const singleRooms = Number(body.singleRooms);
         const doubleRooms = Number(body.doubleRooms);
         const suites = Number(body.suites);
