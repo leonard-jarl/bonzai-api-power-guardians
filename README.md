@@ -22,12 +22,3 @@ Under den första delen av projektet fokuserade vi på att skapa funktionen crea
 	"checkIn": "10 september",
 	"checkOut": "18 september"
 }
-
-
-
-
-
-
-
-
-
