@@ -14,7 +14,6 @@ export const handler = async (event) => {
     }
     const bookingId = `BOOKING#${id}`;
 
-    // hämtar bokningen
     let booking;
     try {
     const getParams = {
@@ -41,8 +40,7 @@ export const handler = async (event) => {
     }
   }
 
-    // räknar ut antalet rum
-try {
+  try {
     const singleRooms = Number(booking.rooms?.singleRooms || 0);
     const doubleRooms = Number(booking.rooms?.doubleRooms || 0);
     const suites = Number(booking.rooms?.suites || 0);
@@ -69,8 +67,7 @@ try {
     };
   }
 
-    // raderar bokningen
-    try {
+  try {
       const getParams = {
         TableName: "bonzaiAPI",
         Key: { pk: { S: "BOOKINGS" }, sk: { S: bookingId } },
@@ -89,7 +86,7 @@ try {
       statusCode: 200,
       body: JSON.stringify({ message: `Booking ${bookingId} deleted` }),
     };
-    
+
   } catch (err) {
     return {
       statusCode: 500,
