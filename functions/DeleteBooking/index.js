@@ -5,7 +5,6 @@ const client = new DynamoDBClient({ region: "eu-north-1" });
 
 export const handler = async (event) => {
   try {
-    
     const id = event.pathParameters.id;
     if (!id) {
       return {
@@ -15,7 +14,8 @@ export const handler = async (event) => {
     }
     const bookingId = `BOOKING#${id}`;
 
-    // hämtar bokningen
+    let booking;
+    try {
     const getParams = {
       TableName: "bonzaiAPI",
       Key: { pk: { S: "BOOKINGS" }, sk: { S: bookingId } },
@@ -31,9 +31,16 @@ export const handler = async (event) => {
       };
     }
 
-    const booking = unmarshall(getResult.Item);
+    booking = unmarshall(getResult.Item);
 
-    // räknar ut antalet rum
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JASON.stringify({ error: "Failed to connect to DynamoDB to fetch booking"})
+    }
+  }
+
+  try {
     const singleRooms = Number(booking.rooms?.singleRooms || 0);
     const doubleRooms = Number(booking.rooms?.doubleRooms || 0);
     const suites = Number(booking.rooms?.suites || 0);
@@ -53,14 +60,33 @@ export const handler = async (event) => {
 
     await client.send(updateAdminCommand);
 
-    // raderar bokningen
-    const deleteCommand = new DeleteItemCommand(getParams);
-    await client.send(deleteCommand);
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Failed to communicate with DynamoDB to update admin totals" }),
+    };
+  }
+
+  try {
+      const getParams = {
+        TableName: "bonzaiAPI",
+        Key: { pk: { S: "BOOKINGS" }, sk: { S: bookingId } },
+      };
+  
+      const deleteCommand = new DeleteItemCommand(getParams);
+      await client.send(deleteCommand);
+    } catch (err) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: `Failed to delete booking: ${err.message}` }),
+      };
+    }
 
     return {
       statusCode: 200,
       body: JSON.stringify({ message: `Booking ${bookingId} deleted` }),
     };
+
   } catch (err) {
     return {
       statusCode: 500,
