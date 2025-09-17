@@ -17,12 +17,12 @@ export const handler = async (event) => {
   const bookings = Items.map((item) => unmarshall(item));
 
   if (bookings.length === 0) {
-   return {
-    statusCode: 404,
-    body: JSON.stringify({
-      message: `Det finns inga bokningar just nu.`,
-    }),
-  };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: `Det finns inga bokningar just nu.`,
+      }),
+    };
   }
 
   return {
