@@ -8,12 +8,20 @@ export const handler = async (event) => {
 
     const {id} = event.pathParameters;
     const bookingId = `BOOKING#${id}`
-    console.log(bookingId)
 
     const singleRooms = Number(body.singleRooms);
     const doubleRooms = Number(body.doubleRooms);
     const suites = Number(body.suites);
     const numberOfGuests = Number(body.numberOfGuests);
+
+    if(isNaN(singleRooms) || isNaN(doubleRooms) || isNaN(suites) || isNaN(numberOfGuests)){
+        return{
+            statusCode: 400,
+            body: JSON.stringify({
+                message: "Felaktiga värden - se till att alla rummen och gästantal är siffror!"
+            })
+        }
+    }
 
     const updatedTotalRooms = singleRooms + doubleRooms + suites;
 
@@ -72,7 +80,7 @@ export const handler = async (event) => {
         }
     });
 
-    const {Items: roomItems} = await client.send(checkRoomsCommand); //hämtar ut "ADMIN och "totalRoomsBooked" och skickar in det i Items. Detta döps om till roomItems så roomItems är en array med objekt.
+    const {Items: roomItems} = await client.send(checkRoomsCommand); 
     const currentTotal = roomItems.length > 0 ? parseInt(unmarshall(roomItems[0]).totalRoomsBooked, 10) : 0;
 
     const maxRooms = 20;
@@ -87,18 +95,6 @@ export const handler = async (event) => {
         };
     }
 
-    console.log({
-  numberOfGuests,
-  singleRooms,
-  doubleRooms,
-  suites,
-  totalPrice,
-  name: body.name,
-  email: body.email,
-  checkIn: body.checkIn,
-  checkOut: body.checkOut
-});
-
     const updateBookingCommand = new UpdateItemCommand({
     TableName: "bonzaiAPI",
     Key: {
@@ -106,7 +102,7 @@ export const handler = async (event) => {
         sk: { S: bookingId }
     },
     UpdateExpression: `SET
-        numbersOfGuests = :guests,
+        numberOfGuests = :guests,
         rooms = :rooms,
         #name = :name,
         email = :email,
