@@ -53,7 +53,7 @@ export const handler = async (event) => {
             };
         }
 
-        if (!Number.isInteger(body.numbersOfGuests) || body.numbersOfGuests <= 0) {
+        if (!Number.isInteger(body.numberOfGuests) || body.numberOfGuests <= 0) {
             return {
                 statusCode: 400,
                 headers,
@@ -82,7 +82,7 @@ export const handler = async (event) => {
                 }
         }
         
-        if (body.numbersOfGuests > totalRoomCapacity) {
+        if (body.numberOfGuests > totalRoomCapacity) {
             return{
                 statusCode: 400,
                 headers,
@@ -106,7 +106,7 @@ export const handler = async (event) => {
         const booking = {
             pk: { S: "BOOKINGS" },
             sk: { S: bookingId},
-            numbersOfGuests: {N: body.numbersOfGuests.toString()},
+            numberOfGuests: {N: body.numberOfGuests.toString()},
             rooms: { 
                 M: {
                     singleRooms: { N: singleRooms.toString()},
@@ -174,7 +174,7 @@ export const handler = async (event) => {
         const confirmation = {
         bookingNumber: bookingId,
         guestName: body.name,
-        guests: body.numbersOfGuests,
+        guests: body.numberOfGuests,
         rooms: { single: singleRooms, double: doubleRooms, suite: suites },
         checkIn: checkIn,
         checkOut: checkOut,
