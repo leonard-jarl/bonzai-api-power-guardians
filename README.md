@@ -11,16 +11,30 @@ Under den första delen av projektet fokuserade vi på att skapa funktionen crea
 
 Under error hantering och confirmation i createBooking satt Emilia och Hasan tillsammans i liveshare och kodade ihop. Detta för vi hade fått lite errors och visa delar av koden lirade inte med varandra. 
 
-### CreateBooking & ChangeBooking
+### CreateBooking
 
 ```
 {
-	"numberOfGuests": 2,
+	"numbersOfGuests": 2,
 	"singleRooms": 2,
 	"doubleRooms": 0,
 	"suites": 0,
 	"name": "John Doe",
 	"email": "john.dansband@gmail.com",
-	"checkIn": "10 september",
-	"checkOut": "18 september"
+	"checkIn": "2025-03-03",
+	"checkOut": "2025-03-08"
+}
+```
+### ChangeBooking
+
+```
+{
+	"numberOfGuests": 3,
+	"singleRooms": 3,
+	"doubleRooms": 0,
+	"suites": 0,
+	"name": "John Doe",
+	"email": "john.dansband@gmail.com",
+	"checkIn": "2025-03-03",
+	"checkOut": "2025-03-08"
 }
