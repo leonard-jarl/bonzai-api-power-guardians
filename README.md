@@ -15,7 +15,7 @@ Under error hantering och confirmation i createBooking satt Emilia och Hasan til
 
 ```
 {
-	"numbersOfGuests": 2,
+	"numberOfGuests": 2,
 	"singleRooms": 2,
 	"doubleRooms": 0,
 	"suites": 0,
