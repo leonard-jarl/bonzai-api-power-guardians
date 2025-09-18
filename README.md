@@ -9,7 +9,7 @@ Gruppen består av:
 
 Under den första delen av projektet fokuserade vi på att skapa funktionen createBooking. Emilia, Leonard och Rasmus samarbetade då via Live Share för att kunna arbeta tillsammans i realtid. Vi valde att göra detta eftersom vi ansåg att detta moment utgjorde en central grund för hela projektet.
 
-Under error hantering och confirmation satt Emilia och Hasan tillsammans i liveshare och kodade ihop. Detta för vi hade fått lite errors och visa delar av koden lirade inte med varandra. 
+Under error hantering och confirmation i createBooking satt Emilia och Hasan tillsammans i liveshare och kodade ihop. Detta för vi hade fått lite errors och visa delar av koden lirade inte med varandra. 
 
 ### CreateBooking & ChangeBooking
 
