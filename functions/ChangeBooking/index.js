@@ -4,9 +4,11 @@ import { unmarshall } from "@aws-sdk/util-dynamodb";
 const client = new DynamoDBClient({ region: "eu-north-1" });
 
 export const handler = async (event) => {
+    const headers = { "Content-Type": "application/json" };
+
     try{
         const body = JSON.parse(event.body);
-
+        const name = body.name;
         const {id} = event.pathParameters;
         const bookingId = `BOOKING#${id}`
 
@@ -32,6 +34,14 @@ export const handler = async (event) => {
             }
         }
 
+        if (!name || name.length > 100) {
+        return {
+            statusCode: 400,
+            headers,
+            body: JSON.stringify({ error: "Skriv in ett namn (max 100 tecken)." }),
+        };
+        }
+
         const singleRooms = Number(body.singleRooms);
         const doubleRooms = Number(body.doubleRooms);
         const suites = Number(body.suites);
@@ -44,6 +54,24 @@ export const handler = async (event) => {
                     message: "Felaktiga värden - se till att alla rummen och gästantal är siffror!"
                 })
             }
+        }
+
+        if (!Number.isInteger(body.numberOfGuests) || body.numberOfGuests <= 0) {
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: "Ange antal gäster som är större än 0." }),
+            };
+        }
+
+        for (const value of [singleRooms, doubleRooms, suites]) {
+                if (!Number.isInteger(value) || value < 0) {
+                    return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: "Antalet rum måste vara heltal och kan inte vara negativt." }),
+                    };
+                }
         }
 
         const updatedTotalRooms = singleRooms + doubleRooms + suites;
